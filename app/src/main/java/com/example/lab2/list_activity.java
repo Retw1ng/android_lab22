@@ -48,19 +48,18 @@ public class list_activity extends Activity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //list1.setSelector(R.color.white);
-                TextAdapter.notifyDataSetChanged();
                 SparseBooleanArray selected = list1.getCheckedItemPositions();
-                for(int i=0; i < datalist.toArray().length;i++)
-                {
-                    if(selected.get(i)) {
-                        datalist.remove(datalist.get(i));
-                        TextAdapter.notifyDataSetChanged();
-                        //selected.removeAt(i);
-                        selected.delete(i);
+
+                int offset = 0;
+                for (int i = 0; i < selected.size(); i++) {
+                    if (selected.valueAt(i)) {
+                        int position = selected.keyAt(i);
+                        list1.setItemChecked(position, false);
+                        datalist.remove(position - offset);
+                        offset++;
                     }
                 }
+                TextAdapter.notifyDataSetChanged();
             }
         });
 
